@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.tooling.preview.Preview
+import com.cursokotlin.sudoku.domain.generateDummyBoard
+import com.cursokotlin.sudoku.ui.composable.SudokuBoard
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,6 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 fun GameScreen(
     modifier: Modifier = Modifier
 ) {
+    //Llamamos a la funcion del tablero temporal
+    val board = generateDummyBoard()
+
     MaterialTheme{
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -58,7 +63,12 @@ fun GameScreen(
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
+                SudokuBoard(
+                    board = board,
+                    onCellClick = { row, col ->
 
+                    }
+                )
             }
         }
     }

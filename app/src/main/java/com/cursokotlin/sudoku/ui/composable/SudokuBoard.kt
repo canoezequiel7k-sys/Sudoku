@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import com.cursokotlin.sudoku.domain.SudokuCell
+import com.cursokotlin.sudoku.domain.extractBlock
 
 //Tablero 9×9 usando bloques
 @Composable
