@@ -1,5 +1,6 @@
 package com.cursokotlin.sudoku.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cursokotlin.sudoku.domain.generateDummyBoard
@@ -29,6 +31,7 @@ fun GameScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current //Obtenemos el contexto.
     //Llamamos a la funcion del tablero temporal
     val board = generateDummyBoard()
 
@@ -76,7 +79,7 @@ fun GameScreen(
                 SudokuBoard(
                     board = board,
                     onCellClick = { row, col ->
-                        print("Celca clickeada: fila $row, columna $col")
+                        Toast.makeText(context, "Celda: $row, $col", Toast.LENGTH_SHORT).show()
                     }
                 )
             }
