@@ -3,7 +3,9 @@ package com.cursokotlin.sudoku.ui.screen
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cursokotlin.sudoku.domain.generateDummyBoard
 import com.cursokotlin.sudoku.ui.composable.SudokuBoard
+import com.cursokotlin.sudoku.ui.composable.SudokuKeypad
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,6 +85,10 @@ fun GameScreen(
                         Toast.makeText(context, "Celda: $row, $col", Toast.LENGTH_SHORT).show()
                     }
                 )
+
+                Spacer(modifier = Modifier.height(28.dp))
+
+                SudokuKeypad {  }
             }
         }
     }
