@@ -20,7 +20,11 @@ fun SudokuCellItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = if (cell.isSelected) Color(0xFFB0D2EF) else Color.Transparent
+    val backgroundColor = when{
+        cell.isSelected -> Color(0xFFFFE082)
+        cell.isSameNumber -> Color(0xFFD0E3FF)
+        else -> Color.Transparent
+    }
 
     Box(
         modifier = modifier

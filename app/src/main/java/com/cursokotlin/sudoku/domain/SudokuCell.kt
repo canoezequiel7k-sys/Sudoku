@@ -11,5 +11,6 @@ data class SudokuCell(
     //Saber si vino de fábrica
     val isGiven: Boolean = false, //Pista
     //Saber si hay un conflicto numérico
-    val hasError: Boolean = false //Error
+    val hasError: Boolean = false, //Error
+    val isSameNumber: Boolean = false
 )
