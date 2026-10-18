@@ -4,12 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,32 +25,56 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SudokuKeypad(
-    onNumberClick: (Int) -> Unit
+    onNumberClick: (Int) -> Unit,
+    onEreseClick: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        for (number in 1..9){
-            Box(
-                modifier = Modifier
-                    .height(44.dp)
-                    .weight(1f)
-                    .background(
-                        color = Color(0xFFD0E3FF),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .clickable{ onNumberClick(number) },
-                contentAlignment = Alignment.Center
-            ){
-                Text(
-                    text = number.toString(),
-                    textAlign = TextAlign.Center,
-                    color = Color(0xFF0056B3)
+    Column(modifier = Modifier
+        .fillMaxWidth()
+    ){
+        //Botones de acciones especificas como borrar, pistas, etc...
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            IconButton(
+                onClick = {onEreseClick()}
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Borrar"
                 )
             }
         }
+
+        //"Teclado numerico"
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            for (number in 1..9){
+                Box(
+                    modifier = Modifier
+                        .height(44.dp)
+                        .weight(1f)
+                        .background(
+                            color = Color(0xFFD0E3FF),
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .clickable{ onNumberClick(number) },
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = number.toString(),
+                        textAlign = TextAlign.Center,
+                        color = Color(0xFF0056B3)
+                    )
+                }
+            }
+        }
     }
+
 }

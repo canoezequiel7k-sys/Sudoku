@@ -16,7 +16,7 @@ fun generateDummyBoard(): List<List<SudokuCell>>
                 row = row,
                 col = col,
                 number = 3, //Rellenamos temporalmente con el 3 para probar la UI
-                isGiven = true, //Marcamos como numero fijo de fabrica.
+                isGiven = false, //Marcamos como numero fijo de fabrica.
             )
         }
     }
