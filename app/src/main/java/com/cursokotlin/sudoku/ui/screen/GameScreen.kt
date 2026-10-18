@@ -23,7 +23,8 @@ import com.cursokotlin.sudoku.ui.composable.SudokuBoard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
 ) {
     //Llamamos a la funcion del tablero temporal
     val board = generateDummyBoard()
@@ -77,5 +78,7 @@ fun GameScreen(
 @Preview
 @Composable
 fun GameScreenPreview() {
-    GameScreen()
+    GameScreen(
+        onBack = {}
+    )
 }
