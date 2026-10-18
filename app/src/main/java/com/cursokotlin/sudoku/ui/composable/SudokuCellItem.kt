@@ -14,14 +14,17 @@ import androidx.compose.ui.unit.dp
 import com.cursokotlin.sudoku.domain.SudokuCell
 
 @Composable
-fun SudokuCellItem(cell: SudokuCell, onClick: () -> Unit) {
+fun SudokuCellItem(
+    cell: SudokuCell,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             //Obliga a que la celda sea un cuadrado perfecto (ancho == alto)
-            .aspectRatio(1f)
             .border(
                 //Dibuja el borde exterior de la celda
-                width = if (cell.hasError) 2.dp else 1.dp,
+                width = if (cell.hasError) 2.dp else 1.dp, //Borde fine entre celdas
                 color = if (cell.hasError) Color.Red else Color.Gray
             )
             .clickable { onClick() }, //Hace que la celda responda al tacto del usuario
