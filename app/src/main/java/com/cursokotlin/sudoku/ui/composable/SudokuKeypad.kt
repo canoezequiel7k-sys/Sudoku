@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SubdirectoryArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,7 +29,8 @@ import androidx.compose.ui.unit.dp
 fun SudokuKeypad(
     onNumberClick: (Int) -> Unit,
     onEreseClick: () -> Unit,
-    onUndoClick: () -> Unit
+    onUndoClick: () -> Unit,
+    onHintClick: () -> Unit
 ) {
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -56,6 +58,15 @@ fun SudokuKeypad(
                 Icon(
                     imageVector = Icons.Default.SubdirectoryArrowLeft,
                     contentDescription = "Retroceder"
+                )
+            }
+            //Button Hint
+            IconButton(
+                onClick = {onHintClick()}
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Pista"
                 )
             }
 

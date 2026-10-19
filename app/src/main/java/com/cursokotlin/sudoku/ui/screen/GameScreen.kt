@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.runtime.LaunchedEffect
@@ -36,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cursokotlin.sudoku.domain.SudokuCell
-import com.cursokotlin.sudoku.domain.generateDummyBoard
+import com.cursokotlin.sudoku.domain.generateSudokuGame
 import com.cursokotlin.sudoku.domain.validateBoard
 import com.cursokotlin.sudoku.ui.composable.SudokuBoard
 import com.cursokotlin.sudoku.ui.composable.SudokuKeypad
@@ -50,7 +49,15 @@ fun GameScreen(
     onBack: () -> Unit,
     difficulty: String = "Normal"
 ) {
-    var board by remember { mutableStateOf(generateDummyBoard(difficulty)) }
+    //Generamos el juego completo (Tablero y solucion)
+    val sudokuGame = remember { generateSudokuGame(difficulty) }
+    //Inicializamos el tablero con el tablero del juego
+    var board by remember { mutableStateOf(sudokuGame.board) }
+    //Guardamos la soluciuon cuando pidan pistas
+    val solution = sudokuGame.solution
+    //Estado para contar las pistas restantes, maximo 3
+    var hintCount by remember { mutableStateOf(3) }
+
     var selectedCell by remember {mutableStateOf<Pair<Int, Int>?>(null) }
     var seconds by remember { mutableStateOf(0)}
     //Estado para contar los Undos restantes.
@@ -226,6 +233,17 @@ fun GameScreen(
                             //Lo quitamos del historial
                             history = history.dropLast(1)
                             undoCount --
+                        }
+                    },
+                    onHintClick = if (hintCount > 0){
+                        //Buscamos la primera celda que este vacia (number == null)
+                        val foundRow = -1
+                        val foundCol = -1
+
+                        for (r in board.indices){
+                            for (c in board[r].indices){
+
+                            }
                         }
                     }
                 )
