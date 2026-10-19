@@ -58,8 +58,8 @@ fun GameScreen(
     //Estado para contar las pistas restantes, maximo 3
     var hintCount by remember { mutableStateOf(3) }
 
-    var selectedCell by remember {mutableStateOf<Pair<Int, Int>?>(null) }
-    var seconds by remember { mutableStateOf(0)}
+    var selectedCell by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    var seconds by remember { mutableStateOf(0) }
     //Estado para contar los Undos restantes.
     var undoCount by remember { mutableStateOf(3) }
     //Lista de historial para guardar los tableros anteriores
@@ -77,13 +77,13 @@ fun GameScreen(
     val timeFormatted = String.format("%02d:%02d", minutes, secs)
 
     LaunchedEffect(Unit) {
-        while (true){
+        while (true) {
             delay(1000L) //Espera un segundo (1000 milisegundos)
             seconds++ //Suma 1 al contador
         }
     }
 
-    MaterialTheme{
+    MaterialTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
@@ -181,7 +181,7 @@ fun GameScreen(
                 Spacer(modifier = Modifier.height(28.dp))
 
                 SudokuKeypad(
-                    onNumberClick = {number ->
+                    onNumberClick = { number ->
                         //Si selectedCell no es nula, extraemos su 'r' (fila) y su 'c' (columna)
                         selectedCell?.let { (r, c) ->
                             history = history + listOf(board)
@@ -189,9 +189,9 @@ fun GameScreen(
                             val newBoard = validateBoard(
                                 board.mapIndexed { rowIndex, rowList ->
                                     rowList.mapIndexed { colIndex, cell ->
-                                        if (rowIndex == r && colIndex == c){
+                                        if (rowIndex == r && colIndex == c) {
                                             cell.copy(number = number)
-                                        }else{
+                                        } else {
                                             cell
                                         }
                                     }
@@ -200,9 +200,9 @@ fun GameScreen(
                             board = newBoard
 
                             //Comprobamos si la celda donde escribio tiene un error
-                            if (board[r][c].hasError){
-                                lives -- //Restamos una vida
-                                if (lives <= 0){
+                            if (board[r][c].hasError) {
+                                lives-- //Restamos una vida
+                                if (lives <= 0) {
                                     isGameOver = true //Se acabaron las oportunidades
                                 }
                             }
@@ -216,9 +216,9 @@ fun GameScreen(
                                 board.mapIndexed { rowIndex, rowList ->
                                     rowList.mapIndexed { colIndex, cell ->
                                         //Solo borramos si coincide con la celda y no es un numero fijo de fabrica(isGiven)
-                                        if (rowIndex == r && colIndex == c && !cell.isGiven){
+                                        if (rowIndex == r && colIndex == c && !cell.isGiven) {
                                             cell.copy(number = null)
-                                        }else{
+                                        } else {
                                             cell
                                         }
                                     }
@@ -227,22 +227,49 @@ fun GameScreen(
                         }
                     },
                     onUndoClick = {
-                        if (undoCount > 0 && history.isNotEmpty()){
+                        if (undoCount > 0 && history.isNotEmpty()) {
                             //Recupéramos el ultimo tablero guardado
                             board = history.last()
                             //Lo quitamos del historial
                             history = history.dropLast(1)
-                            undoCount --
+                            undoCount--
                         }
                     },
-                    onHintClick = if (hintCount > 0){
-                        //Buscamos la primera celda que este vacia (number == null)
-                        val foundRow = -1
-                        val foundCol = -1
+                    onHintClick = {
+                        if (hintCount > 0) {
+                            //Buscamos la primera celda que este vacia (number == null)
+                            var foundRow = -1
+                            var foundCol = -1
 
-                        for (r in board.indices){
-                            for (c in board[r].indices){
+                            for (r in board.indices) {
+                                for (c in board[r].indices) {
+                                    if (board[r][c].number == null) {
+                                        foundRow = r
+                                        foundCol = c
+                                        break
+                                    }
+                                }
+                                if (foundRow != -1) break
+                            }
 
+                            //Si encontramos una celda vacia, aplicamos la pista
+                            if (foundRow != -1 && foundCol != -1) {
+                                val correctNumber = solution[foundRow][foundCol]
+
+                                history = history + listOf(board) //Guardamos historial para el Undo
+                                board = validateBoard(
+                                    board.mapIndexed { rowIndex, rowList ->
+                                        rowList.mapIndexed { colIndex, cell ->
+                                            if (rowIndex == foundRow && colIndex == foundCol) {
+                                                cell.copy(number = correctNumber)
+                                            } else {
+                                                cell
+                                            }
+                                        }
+                                    }
+                                )
+                                //Restamos una pista disponible
+                                hintCount--
                             }
                         }
                     }
@@ -251,13 +278,13 @@ fun GameScreen(
         }
 
         //Dialogo
-        if (isGameOver){
+        if (isGameOver) {
             AlertDialog(
                 onDismissRequest = {},
-                title = {Text("Game Over!")},
-                text = {Text("Te has quedado sin vidas. Mejor suerte la proxima")},
+                title = { Text("Game Over!") },
+                text = { Text("Te has quedado sin vidas. Mejor suerte la proxima") },
                 confirmButton = {
-                    Button(onClick = {onBack()}) {
+                    Button(onClick = { onBack() }) {
                         Text("Volver al menu")
                     }
                 }
