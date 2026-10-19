@@ -18,9 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -78,6 +76,10 @@ fun GameScreen(
     val secs = seconds % 60
     val timeFormatted = String.format("%02d:%02d", minutes, secs)
 
+    //contar cuantas veces aparece cada numero del 1 al 9 en el tablero actual
+    val completedNumbers = (1..9).filter { number ->
+        board.sumOf { row -> row.count{ it.number == number } } >= 9
+    }.toSet()
     LaunchedEffect(Unit) {
         while (true) {
             delay(1000L) //Espera un segundo (1000 milisegundos)
@@ -184,6 +186,7 @@ fun GameScreen(
                 Spacer(modifier = Modifier.height(28.dp))
 
                 SudokuKeypad(
+                    completedNumbers = completedNumbers,
                     onNumberClick = { number ->
                         //Si selectedCell no es nula, extraemos su 'r' (fila) y su 'c' (columna)
                         selectedCell?.let { (r, c) ->
