@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.SubdirectoryArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -26,7 +27,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SudokuKeypad(
     onNumberClick: (Int) -> Unit,
-    onEreseClick: () -> Unit
+    onEreseClick: () -> Unit,
+    onUndoClick: () -> Unit
 ) {
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -38,6 +40,7 @@ fun SudokuKeypad(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            //Button Delete
             IconButton(
                 onClick = {onEreseClick()}
             ) {
@@ -46,6 +49,16 @@ fun SudokuKeypad(
                     contentDescription = "Borrar"
                 )
             }
+            //Button Undo
+            IconButton(
+                onClick = {onUndoClick()}
+            ) {
+                Icon(
+                    imageVector = Icons.Default.SubdirectoryArrowLeft,
+                    contentDescription = "Retroceder"
+                )
+            }
+
         }
 
         //"Teclado numerico"

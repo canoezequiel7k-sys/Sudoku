@@ -3,6 +3,7 @@ package com.cursokotlin.sudoku.ui.screen
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cursokotlin.sudoku.domain.SudokuCell
 import com.cursokotlin.sudoku.domain.generateDummyBoard
 import com.cursokotlin.sudoku.domain.validateBoard
 import com.cursokotlin.sudoku.ui.composable.SudokuBoard
@@ -47,6 +51,14 @@ fun GameScreen(
     var board by remember { mutableStateOf(generateDummyBoard()) }
     var selectedCell by remember {mutableStateOf<Pair<Int, Int>?>(null) }
     var seconds by remember { mutableStateOf(0)}
+    //Estado para contar los Undos restantes.
+    var undoCount by remember { mutableStateOf(3) }
+    //Lista de historial para guardar los tableros anteriores
+    var history by remember { mutableStateOf<List<List<List<SudokuCell>>>>(emptyList()) }
+    //Vidas restantes
+    var lives by remember { mutableStateOf(3) }
+    //Estado para saber si el juego termino en derrota
+    var isGameOver by remember { mutableStateOf(false) }
 
     val context = LocalContext.current //Obtenemos el contexto.
 //    //Llamamos a la funcion del tablero temporal
@@ -103,13 +115,23 @@ fun GameScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                //Temporizador
-                Text(
-                    text = timeFormatted,
-                    textAlign = TextAlign.End,
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                )
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    //Contador de vidas
+                    Text(text = "Vidas: ${"❤️".repeat(lives)}")
+
+                    //Temporizador
+                    Text(
+                        text = timeFormatted,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                    )
+                }
+
                 SudokuBoard(
                     board = board,
                     onCellClick = { row, col ->
@@ -127,7 +149,7 @@ fun GameScreen(
                                 )
                             }
                         }
-                        Toast.makeText(context, "Celda: $row, $col", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "Celda: $row, $col", Toast.LENGTH_SHORT).show()
                     }
                 )
 
@@ -137,7 +159,9 @@ fun GameScreen(
                     onNumberClick = {number ->
                         //Si selectedCell no es nula, extraemos su 'r' (fila) y su 'c' (columna)
                         selectedCell?.let { (r, c) ->
-                            board = validateBoard(
+                            history = history + listOf(board)
+                            //Actualizamos el tablero y lo validamos
+                            val newBoard = validateBoard(
                                 board.mapIndexed { rowIndex, rowList ->
                                     rowList.mapIndexed { colIndex, cell ->
                                         if (rowIndex == r && colIndex == c){
@@ -148,11 +172,21 @@ fun GameScreen(
                                     }
                                 }
                             )
+                            board = newBoard
+
+                            //Comprobamos si la celda donde escribio tiene un error
+                            if (board[r][c].hasError){
+                                lives -- //Restamos una vida
+                                if (lives <= 0){
+                                    isGameOver = true //Se acabaron las oportunidades
+                                }
+                            }
                         }
                     },
                     onEreseClick = {
                         //Si hay una celda seleccionada, la borramos
                         selectedCell?.let { (r, c) ->
+                            history = history + listOf(board)
                             board = validateBoard(
                                 board.mapIndexed { rowIndex, rowList ->
                                     rowList.mapIndexed { colIndex, cell ->
@@ -166,9 +200,32 @@ fun GameScreen(
                                 }
                             )
                         }
+                    },
+                    onUndoClick = {
+                        if (undoCount > 0 && history.isNotEmpty()){
+                            //Recupéramos el ultimo tablero guardado
+                            board = history.last()
+                            //Lo quitamos del historial
+                            history = history.dropLast(1)
+                            undoCount --
+                        }
                     }
                 )
             }
+        }
+
+        //Dialogo
+        if (isGameOver){
+            AlertDialog(
+                onDismissRequest = {},
+                title = {Text("Game Over!")},
+                text = {Text("Te has quedado sin vidas. Mejor suerte la proxima")},
+                confirmButton = {
+                    Button(onClick = {onBack()}) {
+                        Text("Volver al menu")
+                    }
+                }
+            )
         }
     }
 }
