@@ -1,6 +1,5 @@
 package com.cursokotlin.sudoku.ui.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,14 +38,14 @@ import com.cursokotlin.sudoku.domain.validateBoard
 import com.cursokotlin.sudoku.ui.composable.SudokuBoard
 import com.cursokotlin.sudoku.ui.composable.SudokuKeypad
 import kotlinx.coroutines.delay
-import kotlin.math.ceil
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(
     modifier: Modifier = Modifier,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    difficulty: String = "Normal"
 ) {
     var board by remember { mutableStateOf(generateDummyBoard()) }
     var selectedCell by remember {mutableStateOf<Pair<Int, Int>?>(null) }
@@ -80,7 +79,7 @@ fun GameScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "Dificultad")
+                        Text(text = "Sudoku")
                     },
                     navigationIcon = {
                         IconButton(
@@ -152,7 +151,13 @@ fun GameScreen(
 //                        Toast.makeText(context, "Celda: $row, $col", Toast.LENGTH_SHORT).show()
                     }
                 )
-
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(difficulty)
+                }
                 Spacer(modifier = Modifier.height(28.dp))
 
                 SudokuKeypad(
@@ -234,6 +239,7 @@ fun GameScreen(
 @Composable
 fun GameScreenPreview() {
     GameScreen(
-        onBack = {}
+        onBack = {},
+        difficulty = "Normal",
     )
 }

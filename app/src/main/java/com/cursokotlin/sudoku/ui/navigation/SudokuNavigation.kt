@@ -20,16 +20,20 @@ fun SudokuNavigation() {
         //Pantalla 1: Menu principal
         composable("main_screen"){
             MainScreen(
-                onNavigateToGame = {
-                    //Cuando se pulse "nueva partida", navegamos a la pantalla de juego
-                    navController.navigate("game_screen")
+                onNavigateToGame = { difficulty ->
+                    //Navegamos pasando la dificultad elegida en la ruta
+                    navController.navigate("game_screen/$difficulty")
                 }
             )
         }
 
         //Pabtalla 2: Pantalla de juego tablero 9x9
-        composable("game_screen"){
+        composable("game_screen/{difficulty}"){ backStackEntry ->
+            //Extraemos la dificultad de la ruta (Si es nula, por defecto es Normal)
+            val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "Normal"
+
             GameScreen(
+                difficulty = difficulty,
                 onBack = {
                     //Boton para volver atras en la topAppBar
                     navController.popBackStack()
