@@ -19,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -29,9 +30,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cursokotlin.sudoku.domain.SudokuCell
 import com.cursokotlin.sudoku.domain.generateDummyBoard
 import com.cursokotlin.sudoku.domain.validateBoard
@@ -47,7 +50,7 @@ fun GameScreen(
     onBack: () -> Unit,
     difficulty: String = "Normal"
 ) {
-    var board by remember { mutableStateOf(generateDummyBoard()) }
+    var board by remember { mutableStateOf(generateDummyBoard(difficulty)) }
     var selectedCell by remember {mutableStateOf<Pair<Int, Int>?>(null) }
     var seconds by remember { mutableStateOf(0)}
     //Estado para contar los Undos restantes.
@@ -79,7 +82,11 @@ fun GameScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "Sudoku")
+                        Text(
+                            text = "Sudoku \uD83D\uDD34",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     },
                     navigationIcon = {
                         IconButton(
@@ -98,7 +105,7 @@ fun GameScreen(
                             onClick = {}
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Settings,
+                                imageVector = Icons.Default.Delete,
                                 contentDescription = "Configuracion"
                             )
                         }
@@ -121,12 +128,18 @@ fun GameScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     //Contador de vidas
-                    Text(text = "Vidas: ${"❤️".repeat(lives)}")
+                    Text(
+                        text = "Vidas: ${"❤️".repeat(lives)}",
+                        fontWeight = FontWeight.SemiBold
+                    )
 
                     //Temporizador
                     Text(
                         text = timeFormatted,
                         textAlign = TextAlign.End,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light,
+                        style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier
                     )
                 }

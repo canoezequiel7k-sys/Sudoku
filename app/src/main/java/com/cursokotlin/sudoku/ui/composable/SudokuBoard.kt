@@ -23,7 +23,7 @@ fun SudokuBoard(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f) //Obliga a que todo el tablero sea un cuadrado perfecto
-            .border(2.dp, Color.Black) //Borde exterior grueso del tablero
+            .border(4.dp, Color.Black) //Borde exterior grueso del tablero
     ){ //Organiza los bloques verticalmente (3 filas de bloques)
         repeat(3){ blockRow ->
             Row(
@@ -40,7 +40,7 @@ fun SudokuBoard(
                         modifier = Modifier
                             .weight(1f) //Reparte el ancho entre los 3 bloques principales
                             .fillMaxHeight()
-                            .border(1.5.dp, Color.Black) //Borde un poco mnas grueso entre bloques 3x3
+                            .border(2.dp, Color.Black) //Borde un poco mnas grueso entre bloques 3x3
                     )
                 }
             }

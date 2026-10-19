@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cursokotlin.sudoku.domain.SudokuCell
 
 @Composable
@@ -43,7 +44,8 @@ fun SudokuCellItem(
             //Muestra el número si existe (convirtiéndolo a String), o vacío si es null
             text = cell.number?.toString() ?: "",
             //Si es un número dado por el juego, se pone en Negrita (Bold)
-            fontWeight = if (cell.isGiven) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (cell.isGiven) FontWeight.SemiBold else FontWeight.Normal,
+            fontSize = 24.sp
         )
     }
 }
