@@ -63,10 +63,19 @@ fun SudokuKeypad(
                     contentColor = Color(0xFFF44336)
                 )
             ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Borrar"
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Borrar"
+                    )
+                    Text(text = "Borrar")
+                }
+
             }
             //Button Undo
             IconButton(
@@ -81,10 +90,19 @@ fun SudokuKeypad(
                     contentColor = Color(0xFFFF9800)
                 )
             ) {
-                Icon(
-                    imageVector = Icons.Default.SubdirectoryArrowLeft,
-                    contentDescription = "Retroceder"
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.SubdirectoryArrowLeft,
+                        contentDescription = "Retroceder"
+                    )
+                    Text(text = "Deshacer")
+                }
+
             }
             //Button Hint
             IconButton(
@@ -99,10 +117,19 @@ fun SudokuKeypad(
                     contentColor = Color(0xFF369D3A)
                 )
             ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Pista"
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Pista"
+                    )
+                    Text(text = "Pista")
+                }
+
             }
 
         }

@@ -19,7 +19,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.runtime.LaunchedEffect
@@ -90,8 +92,8 @@ fun GameScreen(
                 TopAppBar(
                     title = {
                         Text(
-                            text = "Sudoku \uD83D\uDD34",
-                            fontSize = 24.sp,
+                            text = "Sudoku",
+                            fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
                         )
                     },
@@ -102,18 +104,19 @@ fun GameScreen(
                             }
                         ) {
                             Icon(
-                                imageVector = Icons.Default.ArrowBack,
+                                imageVector = Icons.Default.Clear,
                                 contentDescription = "Volver"
                             )
                         }
                     },
                     actions = {
                         IconButton(
-                            onClick = {}
+                            onClick = {},
+                            modifier = Modifier.height(36.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Configuracion"
+                                imageVector = Icons.Default.Pause,
+                                contentDescription = "Pausar"
                             )
                         }
                     }
