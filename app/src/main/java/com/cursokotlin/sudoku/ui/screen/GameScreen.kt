@@ -57,6 +57,8 @@ fun GameScreen(
     val solution = sudokuGame.solution
     //Estado para contar las pistas restantes, maximo 3
     var hintCount by remember { mutableStateOf(3) }
+    //Condicion de victoria
+    var isYouWin by remember { mutableStateOf(false) }
 
     var selectedCell by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var seconds by remember { mutableStateOf(0) }
@@ -80,6 +82,8 @@ fun GameScreen(
     val completedNumbers = (1..9).filter { number ->
         board.sumOf { row -> row.count{ it.number == number } } >= 9
     }.toSet()
+
+
     LaunchedEffect(Unit) {
         while (true) {
             delay(1000L) //Espera un segundo (1000 milisegundos)
@@ -212,6 +216,13 @@ fun GameScreen(
                                     isGameOver = true //Se acabaron las oportunidades
                                 }
                             }
+                            //Comprobamos si gano la partida
+                            val isBoardFull = board.all { row -> row.all { cell -> cell.number != null } }
+                            val hasNoErrors = board.all { row -> row.all { cell -> !cell.hasError } }
+
+                            if (isBoardFull && hasNoErrors){
+                                isYouWin = true
+                            }
                         }
                     },
                     onEreseClick = {
@@ -276,6 +287,13 @@ fun GameScreen(
                                 )
                                 //Restamos una pista disponible
                                 hintCount--
+
+                                val isBoardFull = board.all { row -> row.all { cell -> cell.number != null } }
+                                val hasNoErrors = board.all { row -> row.all { cell -> !cell.hasError } }
+
+                                if (isBoardFull && hasNoErrors) {
+                                    isYouWin = true // ¡Victoria!
+                                }
                             }
                         }
                     }
@@ -292,6 +310,20 @@ fun GameScreen(
                 confirmButton = {
                     Button(onClick = { onBack() }) {
                         Text("Volver al menu")
+                    }
+                }
+            )
+        }
+
+        // Dialogo de Victoria
+        if (isYouWin) {
+            AlertDialog(
+                onDismissRequest = {},
+                title = { Text("¡Felicidades! 🎉") },
+                text = { Text("¡Has completado el Sudoku con éxito y sin errores en $timeFormatted!") },
+                confirmButton = {
+                    Button(onClick = { onBack() }) {
+                        Text("Volver al Menú")
                     }
                 }
             )
