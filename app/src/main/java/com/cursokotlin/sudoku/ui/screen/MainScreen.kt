@@ -83,24 +83,24 @@ fun MainScreen(
                     ) {
                         //Boton de iniciar partida
                         SudokuButton(
-                            buttonText = "Nueva Partida",
+                            buttonText = "New Game",
                             onClick = {
                                 showDifficultyDialog = true //Abrimos el selector
                             }
                         )
                         //Estadisticas de jugadores
                         SudokuButton(
-                            buttonText = "Estadisticas",
+                            buttonText = "Stats",
                             onClick = {}
                         )
                         //Configuraciones
                         SudokuButton(
-                            buttonText = "Configuraciones",
+                            buttonText = "Config",
                             onClick = {}
                         )
                         //Ayuda: abre el dialogo explicativo de reglas
                         SudokuButton(
-                            buttonText = "Como jugar",
+                            buttonText = "Help",
                             onClick = { showHowToPlay = true }
                         )
                     }

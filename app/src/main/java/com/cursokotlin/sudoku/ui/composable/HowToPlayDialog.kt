@@ -48,7 +48,7 @@ fun HowToPlayDialog(
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp
     )
-
+    //Ventana emergente que aparece al presionar el button de ayuda
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
@@ -60,25 +60,27 @@ fun HowToPlayDialog(
                     .padding(bottom = 8.dp)
             )
         },
+        //Textos de las reglas.
         text = {
-            buildAnnotatedString {
-                append("Regla 1: cada fila del 1 al 9 no puede repetir números.\n\n")
+            val annotatedString = buildAnnotatedString {
+                append("\n")
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
-                    append("Filas")
+                    append("Filas\n\n")
                 }
+                append("\tRegla 1: cada fila del 1 al 9 no puede repetir números.")
                 append("\n\n")
-
-                append("Regla 2: cada columna del 1 al 9 no puede repetir números.\n\n")
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
-                    append("Columnas")
+                    append("Columnas\n\n")
                 }
+                append("\tRegla 2: cada columna del 1 al 9 no puede repetir números.")
                 append("\n\n")
-
-                append("Regla 3: cada bloque de 3×3 celdas no puede repetir números.\n\n")
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
-                    append("Bloques 3×3")
+                    append("Bloques 3×3\n\n")
                 }
+                append("\tRegla 3: cada bloque de 3×3 celdas no puede repetir números.")
+
             }
+            Text(annotatedString)  // ← ESTO ES LO QUE FALTA
         },
         confirmButton = {
             Button(
@@ -95,8 +97,7 @@ fun HowToPlayDialog(
             }
         },
         containerColor = Color.White,
-        titleContentColor = BlueDark,
-        textContentColor = Color.Black
+        titleContentColor = BlueDark
     )
 }
 
