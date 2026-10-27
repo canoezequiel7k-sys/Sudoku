@@ -28,14 +28,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cursokotlin.sudoku.R
+import com.cursokotlin.sudoku.ui.composable.HowToPlayDialog
 import com.cursokotlin.sudoku.ui.composable.SudokuButton
 
 @Composable
 fun MainScreen(
     onNavigateToGame: (String) -> Unit
 ) {
-    //Estado para mostrar el dialogo oculto
+    //Estado para mostrar el dialogo de dificultad
     var showDifficultyDialog by remember { mutableStateOf(false) }
+    //Estado para mostrar el dialogo "Como jugar"
+    var showHowToPlay by remember { mutableStateOf(false) }
 
     MaterialTheme{
         Scaffold(
@@ -95,10 +98,10 @@ fun MainScreen(
                             buttonText = "Configuraciones",
                             onClick = {}
                         )
-                        //Ayuda
+                        //Ayuda: abre el dialogo explicativo de reglas
                         SudokuButton(
                             buttonText = "Como jugar",
-                            onClick = {}
+                            onClick = { showHowToPlay = true }
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
@@ -133,6 +136,14 @@ fun MainScreen(
                     }
                 },
                 confirmButton = {}
+            )
+        }
+
+        //Dialogo explicativo de reglas del Sudoku
+        if (showHowToPlay) {
+            HowToPlayDialog(
+                show = showHowToPlay,
+                onDismissRequest = { showHowToPlay = false }
             )
         }
     }
