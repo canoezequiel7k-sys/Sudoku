@@ -33,10 +33,8 @@ import com.cursokotlin.sudoku.ui.composable.SudokuButton
 
 @Composable
 fun MainScreen(
-    onNavigateToGame: (String) -> Unit
+    onNavigateToDifficulty: () -> Unit
 ) {
-    //Estado para mostrar el dialogo de dificultad
-    var showDifficultyDialog by remember { mutableStateOf(false) }
     //Estado para mostrar el dialogo "Como jugar"
     var showHowToPlay by remember { mutableStateOf(false) }
 
@@ -81,62 +79,32 @@ fun MainScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        //Boton de iniciar partida
+                        //Boton de iniciar partida: navega a la pantalla de seleccion de dificultad
                         SudokuButton(
-                            buttonText = "New Game",
+                            buttonText = "Nueva Partida",
                             onClick = {
-                                showDifficultyDialog = true //Abrimos el selector
+                                onNavigateToDifficulty()
                             }
                         )
                         //Estadisticas de jugadores
                         SudokuButton(
-                            buttonText = "Stats",
+                            buttonText = "Estadisticas",
                             onClick = {}
                         )
                         //Configuraciones
                         SudokuButton(
-                            buttonText = "Config",
+                            buttonText = "Configuraciones",
                             onClick = {}
                         )
                         //Ayuda: abre el dialogo explicativo de reglas
                         SudokuButton(
-                            buttonText = "Help",
+                            buttonText = "Como jugar",
                             onClick = { showHowToPlay = true }
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
-        }
-        //Dibujamos el dialogo con los 3 botones de dificultades
-        if (showDifficultyDialog){
-            AlertDialog(
-                onDismissRequest = {showDifficultyDialog = false},
-                title = { Text("Selecciona la dificultad") },
-                text = {
-                    Column{
-                        Button(onClick = {
-                            showDifficultyDialog = false
-                            onNavigateToGame("Facil")
-                        }) {
-                            Text("Facil")
-                        }
-                        Button(onClick = {
-                            showDifficultyDialog = false
-                            onNavigateToGame("Normal")
-                        }) {
-                            Text("Normal")
-                        }
-                        Button(onClick = {
-                            showDifficultyDialog = false
-                            onNavigateToGame("Dificil")
-                        }) {
-                            Text("Dificil")
-                        }
-                    }
-                },
-                confirmButton = {}
-            )
         }
 
         //Dialogo explicativo de reglas del Sudoku
@@ -147,4 +115,12 @@ fun MainScreen(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun MainScreenPreview() {
+    MainScreen(
+        onNavigateToDifficulty = {}
+    )
 }

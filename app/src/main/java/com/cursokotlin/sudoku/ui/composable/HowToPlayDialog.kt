@@ -65,22 +65,22 @@ fun HowToPlayDialog(
             val annotatedString = buildAnnotatedString {
                 append("\n")
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
-                    append("Filas\n\n")
+                    append("Rows\n\n")
                 }
-                append("\tRegla 1: cada fila del 1 al 9 no puede repetir números.")
+                append("\tRule 1: Each row from 1 to 9 cannot contain repeated numbers.")
                 append("\n\n")
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
-                    append("Columnas\n\n")
+                    append("Colum\n\n")
                 }
-                append("\tRegla 2: cada columna del 1 al 9 no puede repetir números.")
+                append("\tRule 2: Each column from 1 to 9 cannot contain repeated numbers.")
                 append("\n\n")
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
-                    append("Bloques 3×3\n\n")
+                    append("Block 3×3\n\n")
                 }
-                append("\tRegla 3: cada bloque de 3×3 celdas no puede repetir números.")
+                append("\t\nRule 3: Each 3×3 block of cells cannot contain repeated numbers.")
 
             }
-            Text(annotatedString)  // ← ESTO ES LO QUE FALTA
+            Text(annotatedString)
         },
         confirmButton = {
             Button(
@@ -93,7 +93,7 @@ fun HowToPlayDialog(
                 modifier = Modifier
                     .width(120.dp)
             ) {
-                Text(text = "Entendido")
+                Text(text = "Understood")
             }
         },
         containerColor = Color.White,

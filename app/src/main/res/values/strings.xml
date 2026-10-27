@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Sudoku</string>
+
+    <!-- Pantalla de selección de dificultad -->
+    <string name="difficulty_screen_title">Select Difficulty</string>
+
+    <!-- Niveles de dificultad (valores de navegación en español: Facil, Normal, Dificil) -->
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_easy_description">Few empty cells, ideal for beginners</string>
+    <string name="difficulty_normal">Normal</string>
+    <string name="difficulty_normal_description">Balanced challenge</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="difficulty_hard_description">Many empty cells, for experts</string>
+
+    <!-- Accesibilidad -->
+    <string name="navigate_back">Go back</string>
 </resources>

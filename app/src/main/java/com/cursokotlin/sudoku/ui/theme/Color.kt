@@ -17,3 +17,12 @@ val GridLine = Color(0xFFA7CDE8)
 val OuterBorder = Color(0xFFA8D8F0)
 val Circle = Color(0xFFB0D2EF)
 val White = Color(0xFFFFFFFF)
+
+/**
+ * Tonos de azul para diferenciar los 3 niveles de dificultad, de más claro a más oscuro.
+ * Se derivan de los colores existentes de la app para mantener coherencia visual.
+ * No se usan verde, naranja ni rojo.
+ */
+val DifficultyEasy = Circle     // azul claro: nivel fácil
+val DifficultyNormal = Blue     // azul medio: nivel normal
+val DifficultyHard = BlueDark   // azul oscuro: nivel difícil

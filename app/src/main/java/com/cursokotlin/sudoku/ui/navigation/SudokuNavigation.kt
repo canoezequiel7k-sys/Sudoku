@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.cursokotlin.sudoku.ui.screen.DifficultyScreen
 import com.cursokotlin.sudoku.ui.screen.GameScreen
 import com.cursokotlin.sudoku.ui.screen.MainScreen
 
@@ -20,14 +21,28 @@ fun SudokuNavigation() {
         //Pantalla 1: Menu principal
         composable("main_screen"){
             MainScreen(
-                onNavigateToGame = { difficulty ->
-                    //Navegamos pasando la dificultad elegida en la ruta
+                onNavigateToDifficulty = {
+                    //Navegamos a la pantalla de seleccion de dificultad
+                    navController.navigate("difficulty_screen")
+                }
+            )
+        }
+
+        //Pantalla 2: Seleccion de dificultad
+        composable("difficulty_screen"){
+            DifficultyScreen(
+                onBack = {
+                    //Volvemos al menu principal
+                    navController.popBackStack()
+                },
+                onDifficultySelected = { difficulty ->
+                    //Navegamos al juego pasando la dificultad elegida en la ruta
                     navController.navigate("game_screen/$difficulty")
                 }
             )
         }
 
-        //Pabtalla 2: Pantalla de juego tablero 9x9
+        //Pantalla 3: Pantalla de juego tablero 9x9
         composable("game_screen/{difficulty}"){ backStackEntry ->
             //Extraemos la dificultad de la ruta (Si es nula, por defecto es Normal)
             val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "Normal"
