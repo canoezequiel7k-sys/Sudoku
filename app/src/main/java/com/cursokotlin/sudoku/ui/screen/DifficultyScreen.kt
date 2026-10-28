@@ -164,14 +164,14 @@ private fun DifficultyCard(
                 )
                 Text(
                     text = title,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     style = titleStyle
                 )
                 Text(
                     text = description,
-                    fontSize = 14.sp,
-                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
