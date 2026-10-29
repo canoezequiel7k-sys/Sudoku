@@ -3,6 +3,7 @@
 
     <!-- Pantalla de selección de dificultad -->
     <string name="difficulty_screen_title">Select Difficulty</string>
+    <string name="difficulty_screen_subtitle">Pick how many cells start empty</string>
 
     <!-- Niveles de dificultad (valores de navegación en español: Facil, Normal, Dificil) -->
     <string name="difficulty_easy">Easy</string>

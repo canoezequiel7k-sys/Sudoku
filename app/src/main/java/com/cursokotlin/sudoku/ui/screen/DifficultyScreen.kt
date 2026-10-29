@@ -1,7 +1,11 @@
 package com.cursokotlin.sudoku.ui.screen
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForwardIos
 
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -23,6 +33,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,8 +42,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cursokotlin.sudoku.R
-import com.cursokotlin.sudoku.ui.theme.DifficultyEasy
-import com.cursokotlin.sudoku.ui.theme.DifficultyHard
 import com.cursokotlin.sudoku.ui.theme.DifficultyNormal
 
 /**
@@ -60,19 +69,14 @@ fun DifficultyScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.difficulty_screen_title),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
+                title = {},
                 navigationIcon = {
                     IconButton(
                         onClick = onBack
                     ) {
-                        Text(
-                            text = "\u2190",
-                            style = MaterialTheme.typography.titleLarge
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
                         )
                     }
                 }
@@ -83,15 +87,36 @@ fun DifficultyScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(64.dp),
+                .padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    text = stringResource(R.string.difficulty_screen_title),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 28.sp,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = stringResource(R.string.difficulty_screen_subtitle),
+                    fontWeight = FontWeight.Light,
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.titleSmall
+                )
+            }
+            Spacer(modifier = Modifier.height(48.dp))
             DifficultyCard(
                 title = stringResource(R.string.difficulty_easy),
                 description = stringResource(R.string.difficulty_easy_description),
-                color = DifficultyEasy,
+                color = DifficultyNormal,
                 navigationValue = "Facil",
+                level = 1,
                 onClick = onDifficultySelected
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -100,14 +125,16 @@ fun DifficultyScreen(
                 description = stringResource(R.string.difficulty_normal_description),
                 color = DifficultyNormal,
                 navigationValue = "Normal",
+                level = 2,
                 onClick = onDifficultySelected
             )
             Spacer(modifier = Modifier.height(20.dp))
             DifficultyCard(
                 title = stringResource(R.string.difficulty_hard),
                 description = stringResource(R.string.difficulty_hard_description),
-                color = DifficultyHard,
+                color = DifficultyNormal,
                 navigationValue = "Dificil",
+                level = 3,
                 onClick = onDifficultySelected
             )
         }
@@ -131,18 +158,20 @@ private fun DifficultyCard(
     title: String,
     description: String,
     color: Color,
+    level: Int,
     navigationValue: String,
     onClick: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .width(280.dp)
             .clickable(enabled = true) { onClick(navigationValue) },
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = color.copy(alpha = 0.12f)
+            containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.elevatedCardElevation(2.dp)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.elevatedCardElevation(0.dp)
     ) {
         Row(
             modifier = Modifier
@@ -170,16 +199,36 @@ private fun DifficultyCard(
                 )
                 Text(
                     text = description,
-                    fontSize = 12.sp,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Light
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "\u25BA",
-                color = color,
-                fontWeight = FontWeight.Bold
+            DifficultyDots(level = level, color = color)
+            Spacer(modifier = Modifier.width(12.dp))
+            Icon(
+                imageVector = Icons.Default.ArrowForwardIos,
+                contentDescription = "Go"
+            )
+        }
+    }
+}
+
+//Dibuja 3 circulos de 8.dp. Los primeros level quedan rellenos y el resto solo con borde
+@Composable
+private fun DifficultyDots(level: Int, color: Color) {
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        repeat(3) { index ->
+            val isFilled = index < level
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .clip(CircleShape)
+                    .then(
+                        if (isFilled) Modifier.background(color)
+                        else Modifier.border(1.dp, color.copy(alpha = 0.5f), CircleShape)
+                    )
             )
         }
     }

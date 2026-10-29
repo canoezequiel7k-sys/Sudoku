@@ -23,6 +23,4 @@ val White = Color(0xFFFFFFFF)
  * Se derivan de los colores existentes de la app para mantener coherencia visual.
  * No se usan verde, naranja ni rojo.
  */
-val DifficultyEasy = Circle     // azul claro: nivel fácil
 val DifficultyNormal = Blue     // azul medio: nivel normal
-val DifficultyHard = BlueDark   // azul oscuro: nivel difícil

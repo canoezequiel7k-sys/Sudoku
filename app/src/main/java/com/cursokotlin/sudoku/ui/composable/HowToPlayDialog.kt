@@ -77,7 +77,7 @@ fun HowToPlayDialog(
                 withStyle(SpanStyle(color = BlueDark, fontWeight = FontWeight.Bold)) {
                     append("Block 3×3\n\n")
                 }
-                append("\t\nRule 3: Each 3×3 block of cells cannot contain repeated numbers.")
+                append("\tRule 3: Each 3×3 block of cells cannot contain repeated numbers.")
 
             }
             Text(annotatedString)
@@ -91,7 +91,7 @@ fun HowToPlayDialog(
                 ),
                 shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
                 modifier = Modifier
-                    .width(120.dp)
+                    .width(130.dp)
             ) {
                 Text(text = "Understood")
             }
