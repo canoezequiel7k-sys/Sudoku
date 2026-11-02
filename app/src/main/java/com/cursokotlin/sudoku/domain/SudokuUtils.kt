@@ -16,6 +16,8 @@ fun extractBlock(
     blockRow: Int,
     blockCol: Int,
 ): List<List<SudokuCell>>{
+    if (board.isEmpty()) return emptyList()
+
     //Calcular el punto de partida del bloque
     val startRow = blockRow * 3
     val startCol = blockCol * 3

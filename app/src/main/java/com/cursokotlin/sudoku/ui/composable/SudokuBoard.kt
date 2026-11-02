@@ -19,6 +19,8 @@ fun SudokuBoard(
     board: List<List<SudokuCell>>, // Recibe la matriz gigante completa de 9x9 celdas
     onCellClick: (Int, Int) -> Unit
 ) {
+    if (board.isEmpty()) return // Protección contra tablero sin inicializar
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
