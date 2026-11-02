@@ -205,7 +205,8 @@ fun GameScreen(
                                             cell
                                         }
                                     }
-                                }
+                                },
+                                solution = solution //Pasar la solucion
                             )
                             board = newBoard
 

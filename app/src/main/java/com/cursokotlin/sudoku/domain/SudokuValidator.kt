@@ -1,7 +1,10 @@
 package com.cursokotlin.sudoku.domain
 
 
-fun validateBoard(board: List<List<SudokuCell>>): List<List<SudokuCell>> {
+fun validateBoard(
+    board: List<List<SudokuCell>>,
+    solution: List<List<Int>>? = null
+): List<List<SudokuCell>> {
     //Aplicar la logica para verificar filas, columnas y bloques
     return board.mapIndexed { r, rowList ->
         rowList.mapIndexed { c, cell ->
@@ -25,8 +28,11 @@ fun validateBoard(board: List<List<SudokuCell>>): List<List<SudokuCell>> {
                 (it.row != r || it.col != c) && it.number == number
             }
 
+            //Conflicto si el numero no coincide con la solucion
+            val isWrongSolution = solution != null && solution[r][c] != number
+
             //Si hay conflicto en cualquiera de los tres, hassError = true
-            val hasError = rowConflict || colConflict || blockConflict
+            val hasError = rowConflict || colConflict || blockConflict || isWrongSolution
             cell.copy(hasError = hasError)
         }
     }

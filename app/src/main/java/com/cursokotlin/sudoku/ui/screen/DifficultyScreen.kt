@@ -209,7 +209,8 @@ private fun DifficultyCard(
             Spacer(modifier = Modifier.width(12.dp))
             Icon(
                 imageVector = Icons.Default.ArrowForwardIos,
-                contentDescription = "Go"
+                contentDescription = "Go",
+                tint = Color.Gray.copy(alpha = 0.5f)
             )
         }
     }
